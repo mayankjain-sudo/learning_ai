@@ -1,0 +1,9 @@
+# Python requirements for server.py
+Flask
+requests
+python-dotenv
+
+# Setup instructions for Ollama:
+# 1. Install Ollama: curl -fsSL https://ollama.ai/install.sh | sh
+# 2. Pull the required model: ollama pull llama3.2
+# 3. Ensure LLM_ENDPOINT environment variable is set (e.g., http://localhost:11434)
