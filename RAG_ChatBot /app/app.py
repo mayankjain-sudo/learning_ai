@@ -37,7 +37,7 @@ else:
     chunks = load_and_split_pdfs()
     vector_store = create_vector_store(chunks=chunks, embedding_model=embedding_model, persist_directory=vector_store_path)
 
-retriever = vector_store.as_retriever(search_kwargs={"k": 10, "filter": {"source": "LEAVE POLICY-G7CR.pdf"}})
+retriever = vector_store.as_retriever(search_kwargs={"k": 10, "filter": {"source": "LEAVE POLICY.pdf"}})
 def format_docs(docs):
     return "\n\n".join([doc.page_content for doc in docs])
 llm = OllamaLLM(model=llm_model or "llama3.2")
