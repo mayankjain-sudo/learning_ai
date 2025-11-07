@@ -1,0 +1,52 @@
+# Database directory
+db/
+chroma_db/
+
+# Data directory (optional - can be excluded to keep PDFs private)
+# data/
+
+# Sessions directory (contains chat history)
+sessions/
+
+# Test results and temporary files
+tuning_results_*.json
+test_*.py
+*_backup.py
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
