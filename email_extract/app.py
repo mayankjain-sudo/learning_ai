@@ -5,8 +5,6 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
-from langchain.chains.query_constructor.base import AttributeInfo
-from langchain.retrievers.self_query.base import SelfQueryRetriever
 
 # --- Configuration Settings ---
 st.set_page_config(page_title="Email RAG Assistant", page_icon="📧", layout="centered")
@@ -25,49 +23,27 @@ def load_rag_chain():
     # 2. Initialize LLM
     llm = ChatOllama(model=LLM_MODEL, temperature=0.0)
 
-    # 3. Create Intent-Based Self-Query Retriever
-    metadata_field_info = [
-        AttributeInfo(
-            name="subject",
-            description="The subject line of the email",
-            type="string",
-        ),
-        AttributeInfo(
-            name="sender_email",
-            description="The email address of the person who sent the email",
-            type="string",
-        ),
-        AttributeInfo(
-            name="date",
-            description="The timestamp or date the email was received",
-            type="string",
-        ),
-    ]
-    document_content_description = "The body and content of an email message"
-    
-    retriever = SelfQueryRetriever.from_llm(
-        llm,
-        vector_store,
-        document_content_description,
-        metadata_field_info,
-        search_kwargs={"k": 4}
-    )
+    # 3. Use a reliable semantic retriever (k=6 for broader recall)
+    retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 6})
 
-    # 4. Create Prompt
     prompt_template = """
-    You are an intelligent virtual assistant analyzing a user's extracted emails.
+    You are an email assistant. Below are email documents retrieved from a personal inbox.
+    Your task is to answer the user's question STRICTLY based on the email documents provided.
     
-    Use the following pieces of retrieved email context to answer the user's question accurately.
+    STRICT RULES:
+    1. Only use information from the provided email documents. Do NOT add any information, context, or analysis beyond what is explicitly in the emails.
+    2. If the user asks to show emails about a topic, list the emails found: their subject, sender, and a brief 1-sentence summary of the body.
+    3. If no relevant emails are found in the context, say exactly: "I couldn't find any relevant emails for your query."
+    4. Do NOT add questions, commentary, or analysis about why the email was sent.
     
-    CRITICAL RULES:
-    1. Base your answer ONLY on the provided context.
-    2. If the context does not contain the information needed to answer the question, firmly reply "I don't know the answer based on the provided email context." Do not make up internal details, dates, or senders.
-    3. Keep your answer concise and direct (maximum 4 sentences).
+    Retrieved Email Documents:
+    {context}
     
-    Context: {context}
+    User Question: {question}
     
-    Question: {question}
-    """
+    Answer (summarize only what the emails say):"""
+
+    
     prompt = ChatPromptTemplate.from_template(prompt_template)
     
     def format_docs(docs):

@@ -1,4 +1,5 @@
 langchain
+langchain-classic
 langchain-community
 langchain-experimental
 langchain-ollama
