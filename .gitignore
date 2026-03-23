@@ -1,3 +1,8 @@
+
+*.venv
+*.json
+*.info
+chroma_db
 # Database directory
 db/
 chroma_db/
@@ -39,6 +44,7 @@ wheels/
 .installed.cfg
 *.egg
 
+
 # IDE
 .vscode/
 .idea/
@@ -50,3 +56,4 @@ wheels/
 .DS_Store
 .AppleDouble
 .LSOverride
+
