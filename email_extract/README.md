@@ -84,3 +84,53 @@ The output is saved as a dictionary, clustering lists of emails under the specif
     }
 }
 ```
+
+## Vector Embeddings for RAG
+
+After extracting your emails, you can generate semantic embeddings and store them within a local ChromaDB instance to power Retrieval-Augmented Generation (RAG) applications. This functionality is provided by the `create_embeddings.py` script.
+
+### Prerequisites for Embeddings
+The embedding functionality requires extra packages not listed in the standard IMAP extraction. Make sure your virtual environment is active, then install the required dependencies:
+```bash
+pip install -r requirements.txt
+```
+*(Dependencies include `langchain`, `langchain-huggingface`, `sentence-transformers`, `chromadb`, and others).*
+
+### Creating Embeddings
+Run the included vectorization script:
+```bash
+python create_embeddings.py
+```
+
+**What this script does:**
+1. Loads the newly generated `email_data.json`.
+2. Formats each JSON object into clean, readable text.
+3. Automatically maps metadata (like the Sender, Subject, and Date).
+4. Slices the text using Langchain's `SemanticChunker` (driven by the HuggingFace `all-MiniLM-L6-v2` embedding model).
+5. Saves the text chunks and their multi-dimensional vectors into a new local `chroma_db` directory.
+
+Once the database is constructed, you can connect your Langchain agents or standard LLM logic directly to the `./chroma_db` folder to retrieve relevant context!
+
+### Querying the Database (RAG)
+To make things easy, we've included an anti-hallucination querying engine named `rag_query.py`. This script takes a question, semantically searches your email database, and uses a local Ollama model to generate an answer *strictly* based on the retrieved context.
+
+**Usage:**
+```bash
+# Ask a question directly from your terminal!
+python rag_query.py "Did Grafana send any emails today?"
+```
+
+*Note: The script expects you to have the local `llama3.2` model running via Ollama. If you want to use a different model, simply edit the `llm_model` variable within `rag_query.py`.*
+
+### Web UI (Streamlit)
+If you prefer a clean graphical interface, I have included a web-based Chat UI using **Streamlit**. 
+
+To spin up the user interface, run:
+```bash
+# Make sure your virtual environment is active
+source .venv/bin/activate
+
+# Start the Streamlit server
+streamlit run app.py
+```
+This will automatically open the RAG application in your default web browser (usually at `http://localhost:8501`).

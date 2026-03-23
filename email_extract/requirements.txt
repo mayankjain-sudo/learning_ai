@@ -1,0 +1,9 @@
+langchain
+langchain-community
+langchain-experimental
+langchain-ollama
+chromadb
+langchain-huggingface
+sentence-transformers
+streamlit
+lark
