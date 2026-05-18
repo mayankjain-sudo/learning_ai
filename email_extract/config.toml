@@ -3,12 +3,13 @@ server = "imap.gmail.com"
 username = "YOUR_EMAIL_ADDRESS"
 password = "YOUR_APP_PASSWORD"
 
+
 [search]
 # You can provide a specific date:
 target_date = ""
 
 # Or a date range (will override target_date if both are set):
-start_date = "2026-03-15"
-end_date = "2026-03-22"
+start_date = "2026-03-01"
+end_date = "2026-03-23"
 
 output_file = "email_data.json"
