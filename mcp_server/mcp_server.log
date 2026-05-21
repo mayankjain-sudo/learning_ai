@@ -1,0 +1,4 @@
+2026-05-21 10:45:27 - INFO - Processing request of type ListToolsRequest
+2026-05-21 10:45:36 - INFO - Processing request of type CallToolRequest
+2026-05-21 10:45:36 - INFO - Adding integers: 3 + 5
+2026-05-21 10:45:36 - INFO - Result of addition: 8
