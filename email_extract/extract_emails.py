@@ -140,7 +140,7 @@ def extract_emails(target_date_str=None, start_date_str=None, end_date_str=None,
     print(f"Found {len(email_ids)} emails. Extracting contents...")
 
     for num in email_ids:
-        # Fetch the email message by ID
+        # Fetch the email message by ID # RFC822 is a standard format for email messages, Don't just give me the snippets; give me the full, raw source code of this email.
         status, msg_data = mail.fetch(num, "(RFC822)")
         
         if status != "OK":

@@ -6,6 +6,7 @@ chroma_db
 # Database directory
 db/
 chroma_db/
+node_modules/
 
 # Data directory (optional - can be excluded to keep PDFs private)
 # data/
